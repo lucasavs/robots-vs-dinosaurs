@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, validator
 from typing import Optional
+# from .. import grid
 
 router = APIRouter(
     prefix="/robot",
@@ -47,6 +48,7 @@ async def instrunction_robot(robot_id: int, instruction: Instruction):
 
 
 @router.post("/create/")
-async def instrunction_robot(creation: Creation):
-    return creation
-    # raise NotImplemented
+async def create_robot(creation: Creation):
+    # grid.test = grid.test + 1
+    # return {"message": grid.test }
+    raise NotImplemented
