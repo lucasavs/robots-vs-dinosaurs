@@ -1,8 +1,9 @@
-from ..grids import grid_number, grids, GRID_SIZE
+from ..grids import grids
 from fastapi import HTTPException
+from abc import ABC
 
 
-class Fighter:
+class Fighter(ABC):
     grid_id = None
     position_x = None
     position_y = None

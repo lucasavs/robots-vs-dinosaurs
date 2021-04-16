@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from typing import Optional
 from ..controllers import controller_robot
@@ -20,11 +20,13 @@ class Instruction(BaseModel):
     def valid_instruction(cls, instruction):
         if instruction not in ["turn", "move", "attack"]:
             raise ValueError("invalid instruction")
+        return instruction
 
     @validator("direction")
     def valid_direction(cls, direction):
         if direction not in ["right", "left"]:
             raise ValueError("invalid direction")
+        return direction
 
 
 class Creation(BaseModel):
@@ -46,15 +48,17 @@ class Creation(BaseModel):
         return facing
 
 
-@router.post("/instruction/{robot_id}")
-async def instrunction_robot(robot_id: int, instruction: Instruction):
+@router.post("/instruction/{grid_id}/{robot_id}")
+async def instrunction_robot(grid_id: int, robot_id: int, instruction: Instruction):
+    if instruction.instruction == "turn":
+        controller_robot.turn_robot(grid_id, robot_id, instruction.direction)
     return instruction
     # raise NotImplemented
 
 
 @router.post("/create/")
 async def create_robot(creation: Creation):
-    controller_robot.create_robot(
+    robot_id = controller_robot.create_robot(
         creation.grid, creation.position_x, creation.position_y, creation.facing
     )
-    return {"message": "new robot created!"}
+    return {"message": "new robot created!", "robot_id": robot_id}

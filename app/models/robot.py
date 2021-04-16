@@ -1,13 +1,29 @@
 from .fighter import Fighter
+from ..grids import get_new_robot_id, update_robot_tracker
 
 
 class Robot(Fighter):
-    # facing = None
-    # def __init__(self, facing):
-    #     self.facing = facing
+    id = None
 
     def turn(self, direction):
-        raise NotImplemented
+        if direction == "left":
+            if self.facing == "up":
+                self.facing = "left"
+            elif self.facing == "left":
+                self.facing = "down"
+            elif self.facing == "down":
+                self.facing = "right"
+            elif self.facing == "right":
+                self.facing = "up"
+        else:
+            if self.facing == "up":
+                self.facing = "right"
+            elif self.facing == "left":
+                self.facing = "up"
+            elif self.facing == "down":
+                self.facing = "right"
+            elif self.facing == "right":
+                self.facing = "down"
 
     def attack(self):
         raise NotImplemented
@@ -26,3 +42,9 @@ class Robot(Fighter):
         elif self.facing == "down":
             personification += "⬇️"
         return personification
+
+    def create(self):
+        super().create()
+        self.id = get_new_robot_id(self.grid_id)
+        update_robot_tracker(self.grid_id, self)
+        return self.id
