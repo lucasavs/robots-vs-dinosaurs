@@ -32,7 +32,14 @@ class Robot(Fighter):
                 self.facing = "down"
 
     def attack(self):
-        raise NotImplemented
+        if self.position_y - 1 >= 0:
+            delete_element(self.grid_id, self.position_x, self.position_y - 1)
+        if self.position_x - 1 >= 0:
+            delete_element(self.grid_id, self.position_x - 1, self.position_y)
+        if self.position_y + 1 <= 49:
+            delete_element(self.grid_id, self.position_x, self.position_y + 1)
+        if self.position_x + 1 <= 49:
+            delete_element(self.grid_id, self.position_x + 1, self.position_y)
 
     def move(self, direction):
         new_x = self.position_x

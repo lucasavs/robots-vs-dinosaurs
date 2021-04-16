@@ -19,6 +19,11 @@ def move(grid_id, robot_id, direction):
     robot.move(direction)
 
 
+def attack(grid_id, robot_id):
+    robot = get(grid_id, robot_id)
+    robot.attack()
+
+
 def get(grid_id, robot_id):
     if not robots_tracker.get(grid_id):
         raise HTTPException(status_code=404, detail="grid not found")

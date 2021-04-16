@@ -63,7 +63,8 @@ async def instrunction_robot(instruction: Instruction):
         controller_robot.move(
             instruction.grid_id, instruction.robot_id, instruction.direction
         )
-    return instruction
+    else:
+        controller_robot.attack(instruction.grid_id, instruction.robot_id)
 
 
 @router.post("/create/")
