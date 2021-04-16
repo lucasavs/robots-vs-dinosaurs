@@ -54,13 +54,12 @@ class Creation(BaseModel):
 
 
 @router.post("/instruction/")
-async def instrunction_robot(grid_id: int, robot_id: int, instruction: Instruction):
+async def instrunction_robot(instruction: Instruction):
     if instruction.instruction == "turn":
-        controller_robot.turn(grid_id, robot_id, instruction.direction)
+        controller_robot.turn(instruction.grid_id, instruction.robot_id, instruction.direction)
     elif instruction.instruction == "move":
-        controller_robot.move(grid_id, robot_id, instruction.direction)
+        controller_robot.move(instruction.grid_id, instruction.robot_id, instruction.direction)
     return instruction
-    # raise NotImplemented
 
 
 @router.post("/create/")
