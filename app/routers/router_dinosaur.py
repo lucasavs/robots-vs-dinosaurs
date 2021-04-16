@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, validator
+from ..controllers import controller_dinosaur
 
 router = APIRouter(
     prefix="/dinosaur",
@@ -9,6 +10,7 @@ router = APIRouter(
 
 
 class Creation(BaseModel):
+    grid_id: int
     position_x: int
     position_y: int
 
@@ -16,9 +18,12 @@ class Creation(BaseModel):
     def valid_position(cls, position):
         if position < 0 or position > 49:
             raise ValueError("invalid position")
+        return position
 
 
 @router.post("/create/")
-async def instrunction_robot(creation: Creation):
-    return creation
-    # raise NotImplemented
+async def create_dinosaur(creation: Creation):
+    controller_dinosaur.create(
+        creation.grid_id, creation.position_x, creation.position_y
+    )
+    return {"message": "new dinosaur created!"}
