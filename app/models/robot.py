@@ -1,5 +1,11 @@
 from .fighter import Fighter
-from ..grids import get_new_robot_id, update_robot_tracker
+from ..grids import (
+    get_new_robot_id,
+    update_robot_tracker,
+    insert_element,
+    delete_element,
+)
+from fastapi import HTTPException
 
 
 class Robot(Fighter):
@@ -29,7 +35,31 @@ class Robot(Fighter):
         raise NotImplemented
 
     def move(self, direction):
-        raise NotImplemented
+        new_x = self.position_x
+        new_y = self.position_y
+        if direction == "forward":
+            if self.facing == "up":
+                new_x = new_x - 1
+            elif self.facing == "left":
+                new_y = new_y - 1
+            elif self.facing == "down":
+                new_x = new_x + 1
+            elif self.facing == "right":
+                new_y = new_y + 1
+        else:
+            if self.facing == "up":
+                new_x = new_x + 1
+            elif self.facing == "left":
+                new_y = new_y + 1
+            elif self.facing == "down":
+                new_x = new_x - 1
+            elif self.facing == "right":
+                new_y = new_y - 1
+
+        insert_element(self.grid_id, new_x, new_y, self)
+        delete_element(self.grid_id, self.position_x, self.position_y)
+        self.position_x = new_x
+        self.position_y = new_y
 
     def print(self):
         personification = "🤖"

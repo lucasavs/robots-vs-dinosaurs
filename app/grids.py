@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 grid_number = 0
 robot_counter = {}
 GRID_SIZE = 50
@@ -18,3 +20,36 @@ def update_robot_tracker(grid_id, robot):
         robots_tracker[grid_id] = {}
 
     robots_tracker[grid_id][robot.id] = robot
+
+
+def insert_element(grid_id, position_x, position_y, new_info):
+    grid = grids.get(grid_id)
+    if not grid:
+        raise HTTPException(status_code=404, detail="grid not found")
+
+    if grid[position_x][position_y] is not None:
+        raise HTTPException(status_code=400, detail="space occupied")
+
+    if position_x < 0 or position_x > 49 or position_y < 0 or position_y > 49:
+        raise Exception("new position is invalid")
+
+    grids[grid_id][position_x][position_y] = new_info
+
+
+def delete_element(grid_id, position_x, position_y):
+    grid = grids.get(grid_id)
+    if not grid:
+        raise HTTPException(status_code=404, detail="grid not found")
+
+    if position_x < 0 or position_x > 49 or position_y < 0 or position_y > 49:
+        raise Exception("new position is invalid")
+
+    grids[grid_id][position_x][position_y] = None
+
+
+def get_element(grid_id, position_x, position_y):
+    grid = grids.get(grid_id)
+    if not grid:
+        raise HTTPException(status_code=404, detail="grid not found")
+
+    return grids[grid_id][position_x][position_y]

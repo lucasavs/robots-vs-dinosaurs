@@ -13,6 +13,8 @@ router = APIRouter(
 
 
 class Instruction(BaseModel):
+    grid_id: int
+    robot_id: int
     instruction: str
     direction: Optional[str] = None
 
@@ -23,14 +25,17 @@ class Instruction(BaseModel):
         return instruction
 
     @validator("direction")
-    def valid_direction(cls, direction):
-        if direction not in ["right", "left"]:
+    def valid_direction(cls, direction, values):
+        if values["instruction"] == "turn" and direction not in ["right", "left"]:
             raise ValueError("invalid direction")
+        if values["instruction"] == "move" and direction not in ["forward", "backward"]:
+            raise ValueError("invalid direction")
+
         return direction
 
 
 class Creation(BaseModel):
-    grid: int
+    grid_id: int
     position_x: int
     position_y: int
     facing: str
@@ -48,17 +53,19 @@ class Creation(BaseModel):
         return facing
 
 
-@router.post("/instruction/{grid_id}/{robot_id}")
+@router.post("/instruction/")
 async def instrunction_robot(grid_id: int, robot_id: int, instruction: Instruction):
     if instruction.instruction == "turn":
-        controller_robot.turn_robot(grid_id, robot_id, instruction.direction)
+        controller_robot.turn(grid_id, robot_id, instruction.direction)
+    elif instruction.instruction == "move":
+        controller_robot.move(grid_id, robot_id, instruction.direction)
     return instruction
     # raise NotImplemented
 
 
 @router.post("/create/")
 async def create_robot(creation: Creation):
-    robot_id = controller_robot.create_robot(
-        creation.grid, creation.position_x, creation.position_y, creation.facing
+    robot_id = controller_robot.create(
+        creation.grid_id, creation.position_x, creation.position_y, creation.facing
     )
     return {"message": "new robot created!", "robot_id": robot_id}
