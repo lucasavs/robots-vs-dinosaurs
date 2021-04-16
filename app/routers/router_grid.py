@@ -13,10 +13,8 @@ router = APIRouter(
 @router.post("/create/")
 async def create_grid():
     grid_number = controller_grid.create_grid()
-    return {
-        "message": "new grid created!",
-        "grid_number": grid_number
-    }
+    return {"message": "new grid created!", "grid_number": grid_number}
+
 
 @router.get("/{grid_number}")
 async def get_grid(grid_number: int):

@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, validator
 from typing import Optional
+from ..controllers import controller_robot
+
 # from .. import grid
 
 router = APIRouter(
@@ -26,19 +28,22 @@ class Instruction(BaseModel):
 
 
 class Creation(BaseModel):
+    grid: int
     position_x: int
     position_y: int
-    direction: str
+    facing: str
 
     @validator("position_x", "position_y")
     def valid_position(cls, position):
         if position < 0 or position > 49:
             raise ValueError("invalid position")
+        return position
 
-    @validator("direction")
-    def valid_direction(cls, direction):
-        if direction not in ["up", "down", "right", "left"]:
-            raise ValueError("invalid direction")
+    @validator("facing")
+    def valid_direction(cls, facing):
+        if facing not in ["up", "down", "right", "left"]:
+            raise ValueError("invalid facing direction")
+        return facing
 
 
 @router.post("/instruction/{robot_id}")
@@ -49,6 +54,7 @@ async def instrunction_robot(robot_id: int, instruction: Instruction):
 
 @router.post("/create/")
 async def create_robot(creation: Creation):
-    # grid.test = grid.test + 1
-    # return {"message": grid.test }
-    raise NotImplemented
+    controller_robot.create_robot(
+        creation.grid, creation.position_x, creation.position_y, creation.facing
+    )
+    return {"message": "new robot created!"}
