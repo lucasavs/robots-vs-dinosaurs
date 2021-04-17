@@ -32,6 +32,7 @@ def get_grid(grid_number):
         position_x = position_x + 1
     return grid_draw
 
+
 def draw_grid(grid_number):
     grid = grids.get(grid_number)
     drawed_grid = []

@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Grid {{grid_id}}</title>
+</head>
+<body>
+    <h1>Grid {{ grid_id }}</h1>
+    <table>
+        {% set position_x = 0 %}
+        {% for line in grid: %}
+            <tr>
+                {% set position_y = 0 %}
+                {% for element in line %}
+                    <td>
+                        {{ element }}
+                    </td> 
+                {% endfor %}
+        {% endfor %}
+    </table>
+</body>
+</html>
