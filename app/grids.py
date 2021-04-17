@@ -56,3 +56,11 @@ class Grids:
             raise HTTPException(status_code=404, detail="grid not found")
 
         return cls.grids[grid_id][position_x][position_y]
+
+    @classmethod
+    def reset(cls):
+        cls.grid_number = 0
+        cls.robot_counter = {}
+        cls.GRID_SIZE = 50
+        cls.robots_tracker = {}
+        cls.grids = {}

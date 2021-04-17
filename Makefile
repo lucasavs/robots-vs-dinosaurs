@@ -8,4 +8,4 @@ beautify:
 	black .
 
 test:
-	@echo "TODO"
+	python3 -m pytest
