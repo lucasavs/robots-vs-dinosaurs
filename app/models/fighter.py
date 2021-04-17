@@ -1,4 +1,4 @@
-from ..grids import insert_element
+from ..grids import Grids
 from fastapi import HTTPException
 from abc import ABC
 
@@ -16,7 +16,7 @@ class Fighter(ABC):
         self.facing = facing
 
     def create(self):
-        insert_element(self.grid_id, self.position_x, self.position_y, self)
+        Grids.insert_element(self.grid_id, self.position_x, self.position_y, self)
 
     def print(self):
         raise NotImplementedError

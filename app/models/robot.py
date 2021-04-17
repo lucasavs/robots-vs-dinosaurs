@@ -1,10 +1,5 @@
 from .fighter import Fighter
-from ..grids import (
-    get_new_robot_id,
-    update_robot_tracker,
-    insert_element,
-    delete_element,
-)
+from ..grids import Grids
 from fastapi import HTTPException
 
 
@@ -33,13 +28,13 @@ class Robot(Fighter):
 
     def attack(self):
         if self.position_y - 1 >= 0:
-            delete_element(self.grid_id, self.position_x, self.position_y - 1)
+            Grids.delete_element(self.grid_id, self.position_x, self.position_y - 1)
         if self.position_x - 1 >= 0:
-            delete_element(self.grid_id, self.position_x - 1, self.position_y)
+            Grids.delete_element(self.grid_id, self.position_x - 1, self.position_y)
         if self.position_y + 1 <= 49:
-            delete_element(self.grid_id, self.position_x, self.position_y + 1)
+            Grids.delete_element(self.grid_id, self.position_x, self.position_y + 1)
         if self.position_x + 1 <= 49:
-            delete_element(self.grid_id, self.position_x + 1, self.position_y)
+            Grids.delete_element(self.grid_id, self.position_x + 1, self.position_y)
 
     def move(self, direction):
         new_x = self.position_x
@@ -63,8 +58,8 @@ class Robot(Fighter):
             elif self.facing == "right":
                 new_y = new_y - 1
 
-        insert_element(self.grid_id, new_x, new_y, self)
-        delete_element(self.grid_id, self.position_x, self.position_y)
+        Grids.insert_element(self.grid_id, new_x, new_y, self)
+        Grids.delete_element(self.grid_id, self.position_x, self.position_y)
         self.position_x = new_x
         self.position_y = new_y
 
@@ -82,6 +77,6 @@ class Robot(Fighter):
 
     def create(self):
         super().create()
-        self.id = get_new_robot_id(self.grid_id)
-        update_robot_tracker(self.grid_id, self)
+        self.id = Grids.get_new_robot_id(self.grid_id)
+        Grids.update_robot_tracker(self.grid_id, self)
         return self.id
