@@ -2,20 +2,20 @@
 
 ![](https://tokusatsu.blog.br/wp-content/uploads/2019/03/Godzilla-Vs-MechaGodzilla.jpg)
 
-###Instructions
+### Instructions
 To run the application use `docker-compose up` or `make run` (but dont forget to install the dependencies first).
 
 You can use swagger to call the apis at `http://127.0.0.1:8000/docs` 
 
 You can create grids, robots and dinossaurs. You can also give commands to the robots to fight the dinossaurs. To do so you need to access the endpoints below
 
-####POST /grid/create/
+#### POST /grid/create/
 To create a new grid. It returns a json with the new grid id
 
-####GET /grid/draw/{grid_id}
+#### GET /grid/draw/{grid_id}
 A preview with the grid and all the robots and dinosaurs
 
-####POST /robot/create/
+#### POST /robot/create/
 ```json
 {
             "grid_id": int,
@@ -26,7 +26,7 @@ A preview with the grid and all the robots and dinosaurs
 ```
 You create a robot in a specific grid, in a specific position and facing a direction. It returns an json with the id of that robot (for that grid)
 
-####POST /robot/instruction
+#### POST /robot/instruction
 ```json
 {
             "grid_id": int,
@@ -40,7 +40,7 @@ You can give an instruction to a robot. that instruction can be:
 - turn: you can turn the direction of your robot is facing
 - move: your robot can move forward and backward
 
-####POST /dinosaur/create/
+#### POST /dinosaur/create/
 ```json
 {
             "grid_id": int,
