@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel, validator
 from ..controllers import controller_dinosaur
 

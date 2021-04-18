@@ -3,11 +3,8 @@ from fastapi import HTTPException
 
 
 def create_grid():
-    grid = [[None for i in range(Grids.GRID_SIZE)] for j in range(Grids.GRID_SIZE)]
-    Grids.grids[Grids.grid_number] = grid
-    old_grid_number = Grids.grid_number
-    Grids.grid_number = old_grid_number + 1
-    return old_grid_number
+    grid_id = Grids.create_grid()
+    return grid_id
 
 
 def get_grid(grid_number):

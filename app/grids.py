@@ -64,3 +64,11 @@ class Grids:
         cls.GRID_SIZE = 50
         cls.robots_tracker = {}
         cls.grids = {}
+
+    @classmethod
+    def create_grid(cls):
+        grid = [[None for i in range(cls.GRID_SIZE)] for j in range(cls.GRID_SIZE)]
+        cls.grids[cls.grid_number] = grid
+        old_grid_number = cls.grid_number
+        cls.grid_number = old_grid_number + 1
+        return old_grid_number

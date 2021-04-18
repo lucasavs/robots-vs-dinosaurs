@@ -1,6 +1,5 @@
 from .fighter import Fighter
 from ..grids import Grids
-from fastapi import HTTPException
 
 
 class Robot(Fighter):

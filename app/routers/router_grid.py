@@ -1,7 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, validator
+from fastapi import APIRouter, Request
 from ..controllers import controller_grid
-from fastapi import FastAPI, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 

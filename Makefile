@@ -3,6 +3,7 @@ run:
 
 lint:
 	black . --check
+	flake8 .
 
 beautify:
 	black .

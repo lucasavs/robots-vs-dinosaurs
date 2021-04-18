@@ -1,5 +1,4 @@
 from ..grids import Grids
-from fastapi import HTTPException
 from abc import ABC
 
 
